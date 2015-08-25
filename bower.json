@@ -1,8 +1,8 @@
 {
-  "name": "project-demo",
+  "name": "web-starter",
   "version": "0.0.0",
   "authors": [
-    "德淸 <deqing.qdq@alibaba-inc.com>"
+    "quanxi613"
   ],
   "license": "MIT",
   "ignore": [
