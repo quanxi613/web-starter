@@ -61,5 +61,3 @@ gulp.task('moyejs', function () {
 gulp.task('clean', require('del').bind(null, 'dist'));
 
 gulp.task('default', ['mock', 'less', 'moyeless', 'js', 'moyejs', 'connect']);
-
-https://github.com/quanxi613/web-stater.git
