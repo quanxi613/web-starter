@@ -10,3 +10,5 @@
 - 命令行`bower install`
 - 命令行`gulp`起server
 - 命令行`gulp build`打包发布
+
+`config.json`为配置文件，可配置编译输出目录，是否压缩等
