@@ -2,12 +2,13 @@ var gulp = require('gulp');
 var $ = require('gulp-load-plugins')();
 var browserSync = require('browser-sync');
 var reload = browserSync.reload;
+var httpProxy = require('http-proxy');
 var config = require('./config.json');
 
 gulp.task('connect', function () {
   $.connectPhp.server({
     base: config.dist + 'dist',
-    port: 9000,
+    port: 9001,
     open: true
   });
 
@@ -16,18 +17,30 @@ gulp.task('connect', function () {
     port: 9000,
     server: {
       baseDir: ['dist'],
-      directory: true
+      directory: true,
+      routes    : {
+          '/bower_components': 'bower_components'
+      },
+      middleware: function (req, res, next) {
+          var url = req.url;
+
+          if (!url.match(/^\/(src|fonts|bower_components)\//)) {
+              proxy.web(req, res, { target: 'http://127.0.0.1:9001' });
+          } else {
+              next();
+          }
+      }
     }
   });
 
   gulp.watch([
-    'app/tpl/**/*.tpl',
     'app/mock/**/*.php',
     'app/src/js/**/*.js',
     'app/src/img/**/*'
   ]).on('change', reload);
 
   gulp.watch('./app/src/css/**/*.less', ['less', reload]);
+  gulp.watch('./app/Tpl/**/*.tpl', ['tpl', reload]);
 });
 
 
@@ -51,6 +64,18 @@ gulp.task('tpl', function () {
     .pipe(gulp.dest(config.dist + 'dist/tpl'))
 });
 
+gulp.task('img', function () {
+  return gulp.src('./app/src/img/**/*')
+    .pipe($.cache($.imagemin({
+      progressive: true,
+      interlaced: true,
+      // don't remove IDs from SVGs, they are often used
+      // as hooks for embedding and styling
+      svgoPlugins: [{cleanupIDs: false}]
+    })))
+    .pipe(gulp.dest(config.dist + 'dist/src/img'));
+});
+
 //编译less并自动添加浏览器前缀
 gulp.task('less', function () {
   var AUTOPREFIXER_BROWSERS = [
@@ -69,7 +94,8 @@ gulp.task('less', function () {
     ]))
     .pipe($.sourcemaps.write())
     .pipe($.if(config.uglify, $.minifyCss()))
-    .pipe(gulp.dest('./dist/src/css'));
+    .pipe(gulp.dest('./dist/src/css'))
+    .pipe(reload({stream: true}));
 });
 
 //js处理 是否压缩
