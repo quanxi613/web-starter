@@ -132,4 +132,4 @@ gulp.task('clean', require('del').bind(null, ['dist']));
 gulp.task('default', ['copy', 'tpl','mock','less', 'moyeless', 'js', 'moyejs', 'jstpl', 'connect']);
 
 //发布版本
-gulp.task('build', ['tpl','less', 'moyeless', 'js', 'moyejs', 'jstpl', 'connect']);
+gulp.task('build', ['tpl','less', 'moyeless', 'js', 'moyejs', 'jstpl']);
