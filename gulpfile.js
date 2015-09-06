@@ -4,6 +4,7 @@ var browserSync = require('browser-sync');
 var reload = browserSync.reload;
 var httpProxy = require('http-proxy');
 var config = require('./config.json');
+var runSequence = require('run-sequence');
 
 gulp.task('connect', function () {
   $.connectPhp.server({
@@ -128,8 +129,23 @@ gulp.task('moyejs', function () {
 
 gulp.task('clean', require('del').bind(null, ['dist']));
 
+var build = ['tpl', 'jstpl', 'less', 'js', 'img', 'bower'];
+
 //本地调试
-gulp.task('default', ['copy', 'tpl','mock','less', 'moyeless', 'js', 'moyejs', 'jstpl', 'connect']);
+gulp.task('default', function (callback) {
+  runSequence(
+    'mock',
+    'copy',
+    build,
+    'connect',
+    callback
+    );
+});
 
 //发布版本
-gulp.task('build', ['tpl','less', 'moyeless', 'js', 'moyejs', 'jstpl']);
+gulp.task('build', function (callback) {
+  runSequence(
+    build,
+    callback
+    );
+});
