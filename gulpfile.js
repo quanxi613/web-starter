@@ -4,7 +4,7 @@ var browserSync = require('browser-sync');
 var reload = browserSync.reload;
 var httpProxy = require('http-proxy');
 var config = require('./config.json');
-var runSequence = require('run-sequence');
+var runSequence = require('run-sequence'); //确保任务按顺序执行
 
 gulp.task('connect', function () {
   $.connectPhp.server({
