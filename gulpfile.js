@@ -131,7 +131,7 @@ gulp.task('clean', require('del').bind(null, ['dist']));
 
 var build = ['tpl', 'jstpl', 'less', 'js', 'img', 'bower'];
 
-//本地调试
+//本地调试 
 gulp.task('default', function (callback) {
   runSequence(
     'mock',
