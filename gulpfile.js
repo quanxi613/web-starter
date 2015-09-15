@@ -51,18 +51,19 @@ gulp.task('copy', function () {
     '!.app/src/**/*',
     '!.app/tpl/**/*'
     ])
-    .pipe(gulp.dest(config.dist + 'dist'))
+    .pipe(gulp.dest(config.dist + 'dist'));
 });
 
 
 gulp.task('mock', function () {
   return gulp.src('./app/mock/**/*.php')
-    .pipe(gulp.dest(config.dist + 'dist/mock'))
+    .pipe(gulp.dest(config.dist + 'dist/mock'));
 });
 
 gulp.task('tpl', function () {
   return gulp.src('./app/tpl/**/*.tpl')
-    .pipe(gulp.dest(config.dist + 'dist/tpl'))
+    .pipe($.changed(config.dist + 'tpl'))
+    .pipe(gulp.dest(config.dist + 'dist/tpl'));
 });
 
 gulp.task('img', function () {
@@ -88,6 +89,7 @@ gulp.task('less', function () {
   ];
 
   return gulp.src('./app/src/css/**/*.less')
+    .pipe($.changed(config.dist + 'src/css', {extension: '.css'}))
     .pipe($.sourcemaps.init())
     .pipe($.less())
     .pipe($.postcss([
