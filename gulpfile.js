@@ -68,13 +68,13 @@ gulp.task('tpl', function () {
 
 gulp.task('img', function () {
   return gulp.src('./app/src/img/**/*')
-    .pipe($.cache($.imagemin({
+    .pipe($.imagemin({
       progressive: true,
       interlaced: true,
       // don't remove IDs from SVGs, they are often used
       // as hooks for embedding and styling
       svgoPlugins: [{cleanupIDs: false}]
-    })))
+    }))
     .pipe(gulp.dest(config.dist + 'dist/src/img'));
 });
 
