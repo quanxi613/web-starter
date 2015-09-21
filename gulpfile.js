@@ -136,6 +136,7 @@ var build = ['tpl', 'jstpl', 'less', 'js', 'img', 'bower'];
 //本地调试 
 gulp.task('default', function (callback) {
   runSequence(
+    'clean',
     'mock',
     'copy',
     build,
